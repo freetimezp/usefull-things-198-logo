@@ -66,7 +66,7 @@ function loadLogo() {
         tempCanvas.width = config.logoSize;
         tempCanvas.height = config.logoSize;
 
-        const scale = 0.9;
+        const scale = 0.5;
         const size = config.logoSize * scale;
         const offset = (config.logoSize - size) / 2;
         ctx.drawImage(image, offset, offset, size, size);
@@ -217,7 +217,7 @@ function render() {
 
         return result
             ? {
-                  r: parseInt(result[1], 16) / 255,
+                  r: parseInt(result[1], 16) / 100,
                   g: parseInt(result[2], 16) / 255,
                   b: parseInt(result[3], 16) / 255,
               }
