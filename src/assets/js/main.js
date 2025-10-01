@@ -121,6 +121,8 @@ function createParticles(pixels) {
                 colors.push(originalR * logoTint.r, originalG * logoTint.g, originalG * logoTint.b, originalA);
 
                 particles.push({
+                    relX: j - config.logoSize / 2,
+                    relY: i - config.logoSize / 2,
                     originalX: particleX,
                     originalY: particleY,
                     velocityX: 0,
@@ -270,20 +272,17 @@ function setupEvents() {
         if (particles.length > 0) {
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const dim = Math.sqrt(particles.length);
 
             for (let i = 0; i < particles.length; i++) {
-                const row = Math.floor(i / dim);
-                const col = i % dim;
-                const repositionX = centerX + (col - dim / 2) * 1.0;
-                const repositionY = centerY + (row - dim / 2) * 1.0;
+                const p = particles[i];
+                const repositionX = centerX + p.relX;
+                const repositionY = centerY + p.relY;
 
-                particles[i].originalX = repositionX;
-                particles[i].originalY = repositionY;
+                p.originalX = repositionX;
+                p.originalY = repositionY;
                 positionArray[i * 2] = repositionX;
                 positionArray[i * 2 + 1] = repositionY;
             }
-
             gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
             gl.bufferSubData(gl.ARRAY_BUFFER, 0, positionArray);
         }
