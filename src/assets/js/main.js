@@ -1,7 +1,7 @@
 import { vertexShader, fragmentShader } from "./shaders.js";
 
 const config = {
-    logoPath: "./src/assets/images/logo.png",
+    logoPath: "./src/assets/images/logo4.png",
     logoSize: 1250,
     logoColor: "red",
     canvasBg: "red",
@@ -72,6 +72,7 @@ function loadLogo() {
         ctx.drawImage(image, offset, offset, size, size);
 
         const imageData = ctx.getImageData(0, 0, config.logoSize, config.logoSize);
+
         createParticles(imageData.data);
     };
 
@@ -104,8 +105,8 @@ function createParticles(pixels) {
 
     for (let i = 0; i < config.logoSize; i++) {
         for (let j = 0; j < config.logoSize; j++) {
-            const pixelIndex = (i * config.logoSize + j) * 4;
-            const alpha = pixels[pixelIndex + 3];
+            const pixelindex = (i * config.logoSize + j) * 4;
+            const alpha = pixels[pixelindex + 3];
 
             if (alpha > 10) {
                 const particleX = centerX + (j - config.logoSize / 2) * 1.0;
@@ -113,12 +114,12 @@ function createParticles(pixels) {
 
                 positions.push(particleX, particleY);
 
-                const originalR = pixels[pixelIndex] / 255;
-                const originalG = pixels[pixelIndex + 1] / 255;
-                const originalB = pixels[pixelIndex + 2] / 255;
-                const originalA = pixels[pixelIndex + 3] / 255;
+                const originalR = pixels[pixelindex] / 255;
+                const originalG = pixels[pixelindex + 1] / 255;
+                const originalB = pixels[pixelindex + 2] / 255;
+                const originalA = pixels[pixelindex + 3] / 255;
 
-                colors.push(originalR * logoTint.r, originalG * logoTint.g, originalG * logoTint.b, originalA);
+                colors.push(originalR * logoTint.r, originalG * logoTint.g, originalB * logoTint.b, originalA);
 
                 particles.push({
                     relX: j - config.logoSize / 2,
@@ -219,7 +220,7 @@ function render() {
 
         return result
             ? {
-                  r: parseInt(result[1], 16) / 100,
+                  r: parseInt(result[1], 16) / 255,
                   g: parseInt(result[2], 16) / 255,
                   b: parseInt(result[3], 16) / 255,
               }
@@ -283,6 +284,7 @@ function setupEvents() {
                 positionArray[i * 2] = repositionX;
                 positionArray[i * 2 + 1] = repositionY;
             }
+
             gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
             gl.bufferSubData(gl.ARRAY_BUFFER, 0, positionArray);
         }
